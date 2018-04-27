@@ -1,48 +1,42 @@
-from guizero import App, Text, TextBox, PushButton, Picture
+import tkinter as tk
 from picamera import PiCamera
 import time 
 
-def shutter_press():
-    camera.start_preview()
-    start_countdown(5)
-    camera.capture(photo_path, format="png")
-    photo_display.value = photo_path
-    photo_display.show()
-    camera.stop_preview()
+ApplicationTheme =  {
+    'background':'#B8A3CD',
+    'foreground':'#F8F8F2',
+}
 
-def start_countdown(seconds):
-    photo_display.hide()
-    countdown.value = "{0}".format(seconds)
-    countdown.show()
+class Application(tk.Frame):
+    def __init_(self, master=None):
+        super().__init__(master)
+        self.pack()
+        self.create_widgets()
+        self.photo_path = '/home/pi/Desktop/PhotoBooth/image.png'
 
-    starting_time = time.time()
+    def create_widgets(self):
+        self.shutter = tk.Button(self)
+        self.shutter['test'] = 'Take Picture'
+        self.shutter['command'] = self.shutter_press()
+        self.shutter.pack(side=top)
 
-    while (time.time() - starting_time) < seconds:
-        print(countdown.value)
-        countdown.value = "{0}".format((time.time() - starting_time))
-        time.sleep(1)
+    def shutter_press()
+        camera = PiCamera()
 
-    countdown.hide()
+        camera.start_preview()
+        time.sleep(5)
 
-def show_preview():
-    camera.start_preview()
-    time.sleep(480)
-    camera.stop_preview()
+        camera.capture(self.photo_path, format="jpg")
+        camera.stop_preview()
 
 
-camera = PiCamera()
-photo_path = '/home/pi/Desktop/PhotoBooth/image.png'
-
-app = App(title="Pride Camera")
-
-shutter = PushButton(app, command=shutter_press, text="Take Picture")
-preview_mode = PushButton(app, command=show_preview, text="Preview Mode")
-
-countdown = Text(app)
-countdown.hide()
-
-photo_display = Picture(app)
-photo_display.hide()
-
-app.display()
-
+if __name__ == '__main__':
+    root = tk.Tk()
+    root.wm_title('Photo Booth')
+    root.configure(
+        bg=ApplicationTheme['background'], 
+        fg=ApplicationTheme['foreground'],
+    )
+    
+    Window(root)
+    root.mainloop()
