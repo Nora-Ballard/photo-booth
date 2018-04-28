@@ -17,7 +17,7 @@ class Application(tk.Frame):
 
     def create_widgets(self):
         self.shutterBtn = tk.Button(self)
-        self.shutterBtn["test"] = "Take Picture"
+        self.shutterBtn["text"] = "Take Picture"
         self.shutterBtn["command"] = self.shutter_press
         self.shutterBtn.pack(side="top")
 
