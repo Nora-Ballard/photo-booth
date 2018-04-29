@@ -12,28 +12,45 @@ class Application(tk.Frame):
         self.pack()
         self.create_widgets()
         self.config = {
-            "photo_path" : "/home/pi/Desktop/PhotoBooth/image.jpg",
+            "photo_path" : "/home/pi/Desktop/PhotoBooth/image.jpeg",
         }
 
     def create_widgets(self):
         self.shutterBtn = tk.Button(self)
         self.shutterBtn["text"] = "Take Picture"
-        self.shutterBtn["command"] = self.shutter_press
+        self.shutterBtn["command"] = self.shutter_press(5)
         self.shutterBtn.pack(side="top")
 
-    def shutter_press(self):
-        camera = PiCamera()
+    def shutter_press(countdown=0):
+        try:
+            self.camera = PiCamera()
+            self.camera.start_preview()
+            if countdown > 0:
+                start_countdown(countdown)
 
-        camera.start_preview()
-        time.sleep(5)
+            self.camera.capture(self.config["photo_path"], format="jpeg")
+            self.camera.stop_preview()
+            pass
+        finally:
+            self.camera.close()
+            pass
 
-        camera.capture(self.config["photo_path"], format="jpg")
-        camera.stop_preview()
+    def start_countdown(seconds):
+        overlay_text = tk.Text()
+        countdown_overlay = self.camera.add_overlay(overlay_text)
+        countdown_overlay.layer = 1
+        
+        for s in reversed(range(1,seconds)):
+            overlay_text.delete(1.0, END)
+            overlay_text.insert(str(s)
+            time.sleep(1 - time.time() % 1) # sleep until a whole second boundary
+
 
 
 if __name__ == "__main__":
     root = tk.Tk()
     root.wm_title("Photo Booth")
+    root.attributes("-fullscreen", True)
     root.configure(
         bg=ApplicationTheme["background"],
     )
