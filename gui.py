@@ -21,7 +21,7 @@ class Application(tk.Frame):
         self.shutterBtn["command"] = self.shutter_press(5)
         self.shutterBtn.pack(side="top")
 
-    def shutter_press(countdown=0):
+    def shutter_press(self,countdown=0):
         try:
             self.camera = PiCamera()
             self.camera.start_preview()
@@ -35,14 +35,14 @@ class Application(tk.Frame):
             self.camera.close()
             pass
 
-    def start_countdown(seconds):
+    def start_countdown(self,seconds=0):
         overlay_text = tk.Text()
         countdown_overlay = self.camera.add_overlay(overlay_text)
         countdown_overlay.layer = 1
-        
+
         for s in reversed(range(1,seconds)):
             overlay_text.delete(1.0, END)
-            overlay_text.insert(str(s)
+            overlay_text.insert(str(s))
             time.sleep(1 - time.time() % 1) # sleep until a whole second boundary
 
 
