@@ -12,13 +12,13 @@ class Application(tk.Frame):
         self.pack()
         self.create_widgets()
         self.config = {
-            "photo_path" : "/home/pi/Desktop/PhotoBooth/image.jpeg",
+            "photo_path" : "/tmp/image.jpeg",
         }
 
     def create_widgets(self):
         self.shutterBtn = tk.Button(self)
         self.shutterBtn["text"] = "Take Picture"
-        self.shutterBtn["command"] = self.shutter_press(5)
+        self.shutterBtn["command"] = lambda: self.shutter_press(5)
         self.shutterBtn.pack(side="top")
 
     def shutter_press(self,countdown=0):
@@ -36,14 +36,11 @@ class Application(tk.Frame):
             pass
 
     def start_countdown(self,seconds=0):
-        overlay_text = tk.Text()
-        countdown_overlay = self.camera.add_overlay(overlay_text)
-        countdown_overlay.layer = 1
-
         for s in reversed(range(1,seconds)):
-            overlay_text.delete(1.0, END)
-            overlay_text.insert(str(s))
+            self.camera.annotate_text_size = 64
+            self.camera.annotate_text = str(s)
             time.sleep(1 - time.time() % 1) # sleep until a whole second boundary
+        self.camera.annotate_text = " "
 
 
 
