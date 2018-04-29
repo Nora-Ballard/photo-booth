@@ -26,7 +26,7 @@ class Application(tk.Frame):
             self.camera = PiCamera()
             self.camera.start_preview()
             if countdown > 0:
-                start_countdown(countdown)
+                self.start_countdown(countdown)
 
             self.camera.capture(self.config["photo_path"], format="jpeg")
             self.camera.stop_preview()
