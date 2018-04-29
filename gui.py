@@ -13,13 +13,14 @@ class Application(tk.Frame):
         self.create_widgets()
         self.config = {
             "photo_path" : "/tmp/image.jpeg",
+            "countdown_seconds" : 10,
         }
 
     def create_widgets(self):
         self.shutterBtn = tk.Button(self)
-        self.shutterBtn["text"] = "Take Picture"
-        self.shutterBtn["command"] = lambda: self.shutter_press(5)
-        self.shutterBtn.pack(side="top")
+        self.shutterBtn["text"] = "Start Countdown"
+        self.shutterBtn["command"] = lambda: self.shutter_press(self.config["countdown_seconds"])
+        self.shutterBtn.pack(side="center")
 
     def shutter_press(self,countdown=0):
         try:
