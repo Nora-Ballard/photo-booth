@@ -20,7 +20,7 @@ class Application(tk.Frame):
         self.shutterBtn = tk.Button(self)
         self.shutterBtn["text"] = "Start Countdown"
         self.shutterBtn["command"] = lambda: self.shutter_press(self.config["countdown_seconds"])
-        self.shutterBtn.pack(side="center")
+        self.shutterBtn.pack()
 
     def shutter_press(self,countdown=0):
         try:
